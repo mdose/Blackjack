@@ -1,0 +1,49 @@
+Blackjack
+=========
+
+Basic Rules
+-----------
+
+* One dealer and one player
+* Use 52 cards (one deck)
+* Dealer deals two cards to player and to self (alternating with player dealt first)
+* After the deal, check to see if player has winning conditions
+* Winning Conditions:
+  * Get 21 points on the player's first two cards (called a "blackjack" or a "natural"), without a dealer blackjack
+  * Reach a final score higher than the dealer without exceeding 21
+  * Let the dealer draw additional cards until their hand exceeds 21
+* If the player exceeds 21 they bust and the dealer wins
+* The dealer must hit until the cards total 17 or more points
+* If both player and dealer have the same total, this is called a "push" and the player does not win
+
+MVP Work Flow
+-------------
+* Start game:
+  1. Shuffle 52 cards
+  2. Dealer deals player first card, then deals card to self
+  3. Dealer deals player second card, then deals second card to self
+  4. Play begins
+  5. Check to see if the player has "natural" blackjack, if so player stands
+  6. Ask player if they want to hit or stand
+  7. If player asks for hit, deal them another card
+  8. Check to see if the player busts, if so dealer wins
+  9. Check to see if player has 21, if so stand
+  10. Loop steps 6 - 9 indefinitely, until player stands or busts
+    * (Remember that aces can change value from 11 to 1 if player would bust with an ace valuing 11)
+  11. Dealer plays
+  12. Dealer must hit continuously if under 17
+  13. When dealer stands or busts, the game ends
+  14. If dealer busts, the player wins
+  15. Otherwise compare scores, whoever has higher score wins
+  16. If score is equal, it's a push and no one wins
+
+
+
+Nice to haves
+-------------
+
+* Dealer has hidden/facedown card as second card dealt
+* Dealer hits on "soft" 17
+* Be able to play mutliple hands, but keep track of cards already played within the deck
+* Add betting
+* Allow more players
