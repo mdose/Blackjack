@@ -61,7 +61,17 @@ def shuffle(deck):
     # shuffle the deck(list of tuples, each tuple has a rank, and a suit) -> returns None
     random.shuffle(deck)
 
-# def deal
+def deal():
+    pass
+
+def score():
+    pass
+
+def hit():
+    pass
+
+def dealer_plays():
+    pass
 
 def execute_repl(deck):
     #user interface (menu choices)
