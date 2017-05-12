@@ -70,28 +70,21 @@ def deal(deck, hand):
     # hand.append(top_card)
 
 def assess_score(hand):
-    #convert face cards to 10 in NEW tuples-->b/c tuples can't be altered! (immutable!)
-    #add first part of card tuples together
-    #hand -> list of tuples [tuple_1, tuple_2]
-        #tuple_1[0] + tuple_2[0] == score
-    #have ace be either 1 or 11 depending on total score
-    # if card[0] == "jack" or card[0] == "queen" or card[0] == "king":
-    #     "jack" = 10
-    #     "queen" = 10
-    #     "king" = 10
-    #face cards = {"jack" : 10, "queen" : 10, "king" :10}
-        # ace ->
-        # if score <= 10:
-        #     {"ace" : 11}
-        # else:
-        #     {"ace" : 1}
     score = 0
     for card in hand:
-        rank = card[0]
-        score += rank
+        score += determine_numeric_value_of_card(card)
     return score
 
-    #score = player[0][0] + player[1][0]
+def determine_numeric_value_of_card(card):
+    #write a func that takes 1 card(tuple) as a parameter and returns numeric value
+    rank = card[0]
+    if rank == "jack" or rank == "queen" or rank == "king":
+        return 10
+    elif rank == "ace":
+        return 11
+    #TODO fix fluxatating ace value
+    else:
+        return rank
 
 #def hit():
     #pass
@@ -111,8 +104,8 @@ deal(deck, player)
 deal(deck, dealer)
 deal(deck, player)
 deal(deck, dealer)
-#assess_score(player)
-#assess_score(dealer)
+print assess_score(player)
+print assess_score(dealer)
 
 
 
