@@ -62,19 +62,36 @@ def shuffle(deck):
     random.shuffle(deck)
 
 def deal(deck, hand):
-    # remove first four cards; one to player (list); one to dealer(list)
-    #player.append(deck.pop(0))
-    top_card = deck[0]
-    deck.remove(top_card)
-    hand.append(top_card)
+    # remove first four cards; one to player (list); one to dealer(list); repeat
+    hand.append(deck.pop(0))
+    ## Orginial version below:
+    # top_card = deck[0]
+    # deck.remove(top_card)
+    # hand.append(top_card)
 
-# def assess_score(score, hand):
-    #convert face cards to 10 in tuples
+def assess_score(hand):
+    #convert face cards to 10 in NEW tuples-->b/c tuples can't be altered! (immutable!)
     #add first part of card tuples together
+    #hand -> list of tuples [tuple_1, tuple_2]
+        #tuple_1[0] + tuple_2[0] == score
     #have ace be either 1 or 11 depending on total score
-    # if card in hand[0][0] ==
+    # if card[0] == "jack" or card[0] == "queen" or card[0] == "king":
+    #     "jack" = 10
+    #     "queen" = 10
+    #     "king" = 10
+    #face cards = {"jack" : 10, "queen" : 10, "king" :10}
+        # ace ->
+        # if score <= 10:
+        #     {"ace" : 11}
+        # else:
+        #     {"ace" : 1}
+    score = 0
+    for card in hand:
+        rank = card[0]
+        score += rank
+    return score
 
-
+    #score = player[0][0] + player[1][0]
 
 #def hit():
     #pass
@@ -94,7 +111,8 @@ deal(deck, player)
 deal(deck, dealer)
 deal(deck, player)
 deal(deck, dealer)
-#assess_score(score, hand)
+#assess_score(player)
+#assess_score(dealer)
 
 
 

@@ -44,6 +44,6 @@ Nice to haves
 
 * Dealer has hidden/facedown card as second card dealt
 * Dealer hits on "soft" 17
-* Be able to play mutliple hands, but keep track of cards already played within the deck
+* Be able to play multiple hands, but keep track of cards already played within the deck
 * Add betting
 * Allow more players
