@@ -71,20 +71,26 @@ def deal(deck, hand):
 
 def assess_score(hand):
     score = 0
-    for card in hand:
-        score += determine_numeric_value_of_card(card)
+    sorted_hand = sorted(hand, key=lambda card: determine_numeric_value(card, 0))
+    for card in sorted_hand:
+        score += determine_numeric_value(card, score)
     return score
 
-def determine_numeric_value_of_card(card):
+def determine_numeric_value(card, score):
     #write a func that takes 1 card(tuple) as a parameter and returns numeric value
     rank = card[0]
     if rank == "jack" or rank == "queen" or rank == "king":
         return 10
     elif rank == "ace":
-        return 11
-    #TODO fix fluxatating ace value
+        return determine_ace_value(score)
     else:
         return rank
+
+def determine_ace_value(score):
+    if score <= 10:
+        return 11
+    else:
+        return 1
 
 #def hit():
     #pass
