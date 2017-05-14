@@ -102,15 +102,15 @@ def reveal_dealer_faceup_card(dealer):
     print "\nDealer reveals first card: " + str(dealer[0]) + "."
 
 def hit_or_stand(player, deck):
-    next_move = raw_input("\nDo you want to hit or stand? ")
-    if next_move == "hit" or next_move == "Hit":
+    next_move = raw_input("\nDo you want to hit or stand? ").lower()
+    if next_move == "hit":
         deal(deck, player)
-        return "Hit"
-    elif next_move == "stand" or next_move == "Stand":
-        return "Stand"
+        return "hit"
+    elif next_move == "stand":
+        return "stand"
     else:
         print "Does not compute. Please type hit or stand."
-        return "Error"
+        return "error"
 
 
 #def dealer_plays():
@@ -175,9 +175,9 @@ def execute_repl():
             reveal_dealer_faceup_card(dealer)
             while True:
                 answer = hit_or_stand(player, deck)
-                if answer == "Hit":
+                if answer == "hit":
                     reveal_player_hand(player)
-                elif answer == "Stand":
+                elif answer == "stand":
                     break
 
 
