@@ -92,6 +92,27 @@ def determine_ace_value(score):
     else:
         return 1
 
+def reveal_player_hand(player):
+    print ""
+    for card in player:
+        print "You have a " + str(card[0]) + " of " + card[1] + "."
+    print "\nYour score is: " + str(assess_score(player))
+
+def reveal_dealer_faceup_card(dealer):
+    print "\nDealer reveals first card: " + str(dealer[0]) + "."
+
+def hit_or_stand(player, deck):
+    next_move = raw_input("\nDo you want to hit or stand? ")
+    if next_move == "hit" or next_move == "Hit":
+        deal(deck, player)
+        return "Hit"
+    elif next_move == "stand" or next_move == "Stand":
+        return "Stand"
+    else:
+        print "Does not compute. Please type hit or stand."
+        return "Error"
+
+
 #def dealer_plays():
     #pass
 
@@ -102,20 +123,21 @@ def get_menu_choice():
     Returns:
       int: the user's menu choice
     """
-    print '\n  0 - Main Menu'
-    print '    1 - Start game/Deal hand'
-    print '    2 - Player hit or stand'
-    print '    3 - Dealer plays'
-    print '    4 - Determine winner'
+    print '\n    0 - Main Menu'
+    print '    1 - Start game'
+    #print '    2 - Calculate player score'
+    #print '    3 - Player hit or stand'
+    #print '    4 - Dealer plays'
+    #print '    5 - Determine winner'
     #print '    2 - Display high scores'
     #print '    3 - Add score to high scores'
-    print '    5 - Exit the program.\n'
+    print '    6 - Exit the program.\n'
 
     choice = int(raw_input('Choose from the menu options: '))
 
     return choice
 
-def execute_repl(deck):
+def execute_repl():
     """Execute the repl loop for the control structure of the program.
     (REPL stands for Read - Eval - Print Loop. For more info:
     https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop)
@@ -138,77 +160,50 @@ def execute_repl(deck):
             # start game
 
             # call function to make and shuffle deck; deal intital hand
+            deck = make_new_deck()
+            player = []
+            dealer = []
             shuffle(deck)
             deal(deck, player)
             deal(deck, dealer)
             deal(deck, player)
             deal(deck, dealer)
+            print "\nHello."
+            #answer = raw_input("Do you want to play a game? Yes or No? ")
+            #if answer == "yes" or "Yes":
+            reveal_player_hand(player)
+            reveal_dealer_faceup_card(dealer)
+            while True:
+                answer = hit_or_stand(player, deck)
+                if answer == "Hit":
+                    reveal_player_hand(player)
+                elif answer == "Stand":
+                    break
 
-            print assess_score(player)
 
-        elif choice == 3:
-            # dealer plays; must hit if under 17
-            print assess_score(dealer)
+            #elif answer == "no" or "No":
+                #continue
+            #else:
+                #print "Does not compute. Please type yes or no."
 
-        elif choice == 5:
+            # for card in player:
+            #     print "You have a " + str(card[0]) + " of " + card[1] + "."
+            # print "\nPlayer Score: " + str(assess_score(player))
+            # print "\n Dealer reveals first card: " + str(dealer[0]) + "."
+            #
+
+        #elif choice == 2:
+            #Gives a calculated score if player desires
+
+
+        # elif choice == 3:
+        #     # dealer plays; must hit if under 17
+        #     print assess_score(dealer)
+
+        elif choice == 6:
             # quit
             break
 
-        # else:
-        #
-        #     # all of the remaning choices require an existing list. First, run
-        #     # code to get the list name from the user and verify it exists in
-        #     # the dict
-        #
-        #     # determine which list
-        #     list_name = raw_input('Which list would you like to see? ')
-        #
-        #     # test to see if the list is in the shopping list dict
-        #     if list_name not in shopping_lists_by_name:
-        #         # no list by this name :-(
-        #         print 'There is no {} list.'.format(list_name)
-        #         continue
-        #
-        #     # if the code reaches this point, it means the list exists in the
-        #     # dictionary, so proceed according to which choice was chosen
-        #
-        #     if choice == 2:
-        #         # show a specific list
-        #
-        #         display_shopping_list(shopping_lists_by_name, list_name)
-        #
-        #     elif choice == 4:
-        #         # Add item(s) to a shopping list
-        #
-        #         # add items to the shopping list
-        #         edit_shopping_list(shopping_lists_by_name, list_name, 'add')
-        #
-        #     elif choice == 5:
-        #         # Remove an item from a shopping list
-        #
-        #         # add items to the shopping list
-        #         edit_shopping_list(shopping_lists_by_name, list_name, 'remove')
-        #
-        #     elif choice == 6:
-        #         # remove list
-        #
-        #         remove_shopping_list(shopping_lists_by_name, list_name)
+#Main code here
 
-
-#intial calls
-
-# deck = make_new_deck()
-# shuffle(deck)
-# player = []
-# dealer = []
-# deal(deck, player)
-# deal(deck, dealer)
-# deal(deck, player)
-# deal(deck, dealer)
-# print assess_score(player)
-#print assess_score(dealer)
-
-deck = make_new_deck()
-player = []
-dealer = []
-execute_repl(deck)
+execute_repl()
