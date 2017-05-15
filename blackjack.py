@@ -96,22 +96,28 @@ def reveal_player_hand(player):
     print ""
     for card in player:
         print "You have a " + str(card[0]) + " of " + card[1] + "."
-    print "\nYour score is: " + str(assess_score(player))
+    print "\nYour score is: " + str(assess_score(player)) + "."
 
 def reveal_dealer_faceup_card(dealer):
-    print "\nDealer reveals first card: " + str(dealer[0]) + "."
+    print "\nDealer has a " + str(dealer[0][0]) + " of " + str(dealer[0][1]) + "."
 
 def hit_or_stand(player, deck):
     next_move = raw_input("\nDo you want to hit or stand? ").lower()
     if next_move == "hit":
         deal(deck, player)
-        return "hit"
+        return determine_if_bust(player)
     elif next_move == "stand":
         return "stand"
     else:
-        print "Does not compute. Please type hit or stand."
         return "error"
 
+def determine_if_bust(hand):
+    if assess_score(hand) > 21:
+        return "bust"
+    elif assess_score(hand) == 21:
+        return "win"
+    else:
+        return "hit"
 
 #def dealer_plays():
     #pass
@@ -179,21 +185,17 @@ def execute_repl():
                     reveal_player_hand(player)
                 elif answer == "stand":
                     break
-
-
-            #elif answer == "no" or "No":
-                #continue
-            #else:
-                #print "Does not compute. Please type yes or no."
-
-            # for card in player:
-            #     print "You have a " + str(card[0]) + " of " + card[1] + "."
-            # print "\nPlayer Score: " + str(assess_score(player))
-            # print "\n Dealer reveals first card: " + str(dealer[0]) + "."
-            #
-
-        #elif choice == 2:
-            #Gives a calculated score if player desires
+                elif answer == "bust":
+                    reveal_player_hand(player)
+                    print "Awe, bust! You lose!"
+                    break
+                elif answer == "win":
+                    reveal_player_hand(player)
+                    print "Blackjack! You win!"
+                    break
+                elif answer == "error":
+                    print "Does not compute. Please type hit or stand."
+            #reveal_dealer_hand(dealer)
 
 
         # elif choice == 3:
