@@ -95,13 +95,19 @@ def determine_ace_value(score):
 def reveal_player_hand(player):
     for card in player:
         print "You have a " + str(card[0]) + " of " + card[1] + "."
-    print "\nYour score is: " + str(assess_score(player)) + "."
+    print "\nYour score is: " + str(assess_score(player)) + ".\n"
+
+def reveal_if_natural_blackjack(player, dealer):
+    if assess_score(player) == 21:
+        print "Instant Blackjack! You win!"
+    elif assess_score(dealer) == 21:
+        print "Instant Blackjack. Dealer wins."
 
 def reveal_dealer_faceup_card(dealer):
-    print "\nDealer has a " + str(dealer[0][0]) + " of " + str(dealer[0][1]) + "."
+    print "Dealer has a " + str(dealer[0][0]) + " of " + str(dealer[0][1]) + ".\n"
 
 def hit_or_stand(player, deck):
-    next_move = raw_input("\nDo you want to hit or stand? ").lower()
+    next_move = raw_input("Do you want to hit or stand? ").lower()
     if next_move == "hit":
         deal(deck, player)
         return determine_if_bust(player)
@@ -119,10 +125,9 @@ def determine_if_bust(hand):
         return "hit"
 
 def dealer_reveals_full_hand(dealer):
-    print "Dealer's turn:"
     for card in dealer:
         print "Dealer has a " + str(card[0]) + " of " + card[1] + "."
-    print "\nDealer's score is: " + str(assess_score(dealer)) + "."
+    print "\nDealer's score is: " + str(assess_score(dealer)) + ".\n"
 
 def dealer_plays(dealer, deck):
     if assess_score(dealer) <= 16:
@@ -130,6 +135,21 @@ def dealer_plays(dealer, deck):
         return determine_if_bust(dealer)
     else:
         return "stand"
+
+def determine_winner(player, dealer):
+    #Compare score of player with score of dealer
+    player_final_score = assess_score(player)
+    dealer_final_score = assess_score(dealer)
+    if player_final_score > 21:
+        return "dealer"
+    elif dealer_final_score > 21:
+        return "player"
+    elif player_final_score > dealer_final_score:
+        return "player"
+    elif player_final_score < dealer_final_score:
+        return "dealer"
+    else:
+        return "tie"
 
 def get_menu_choice():
     """Print a menu and asks the user to make a choice.
@@ -139,14 +159,11 @@ def get_menu_choice():
       int: the user's menu choice
     """
     print '\n    0 - Main Menu'
-    print '    1 - Start game'
-    #print '    2 - Calculate player score'
-    #print '    3 - Player hit or stand'
-    #print '    4 - Dealer plays'
-    #print '    5 - Determine winner'
-    #print '    2 - Display high scores'
-    #print '    3 - Add score to high scores'
-    print '    6 - Exit the program.\n'
+    print '    1 - You play'
+    print '    2 - Dealer plays'
+    print '    3 - Determine Bust or Blackjack'
+    print '    4 - Determine high score'
+    print '    5 - Exit the program.\n'
 
     choice = int(raw_input('Choose from the menu options: '))
 
@@ -204,28 +221,56 @@ def execute_repl():
                     break
                 elif answer == "error":
                     print "Does not compute. Please type hit or stand."
+
+        elif choice == 2:
+             # dealer plays; must hit if under 17
+             print "\nDealer's turn:\n"
+             dealer_reveals_full_hand(dealer)
+             reveal_if_natural_blackjack(player, dealer)
+             while True:
+                 house_score = dealer_plays(dealer, deck)
+                 if house_score == "hit":
+                     print "Dealer takes another card.\n"
+                     dealer_reveals_full_hand(dealer)
+                 elif house_score == "stand":
+                     break
+                 elif house_score == "bust":
+                     dealer_reveals_full_hand(dealer)
+                     print "Dealer busts! You win!"
+                     break
+                 elif house_score == "win":
+                     dealer_reveals_full_hand(dealer)
+                     print "Dealer Blackjack! You lose!"
+                     break
+
+        elif choice == 3:
+            player_bust = determine_if_bust(player)
+            dealer_bust = determine_if_bust(dealer)
+            reveal_player_hand(player)
             dealer_reveals_full_hand(dealer)
+            if player_bust == "bust":
+                print "Awe, bust! You lose!"
+            elif player_bust == "win":
+                print "Blackjack! You win!"
+            elif dealer_bust == "bust":
+                print "Dealer busts! You win!"
+            elif dealer_bust == "win":
+                print "Dealer Blackjack! You lose!"
+
+        elif choice == 4:
             while True:
-                house_score = dealer_plays(dealer, deck)
-                if house_score == "hit":
-                    dealer_reveals_full_hand(dealer)
-                elif house_score == "stand":
+                compare = determine_winner(player, dealer)
+                if compare == "player":
+                    print "\nYour hand is higher. You win!"
                     break
-                elif house_score == "bust":
-                    dealer_reveals_full_hand(dealer)
-                    print "Dealer busts! You win!"
+                elif compare == "dealer":
+                    print "\nAwe, dealer's hand is higher. Dealer wins."
                     break
-                elif house_score == "win":
-                    dealer_reveals_full_hand(dealer)
-                    print "Dealer Blackjack! You lose!"
+                elif compare == "tie":
+                    print "\nScores are the same. Tie!"
                     break
 
-
-        # elif choice == 3:
-        #     # dealer plays; must hit if under 17
-        #     print assess_score(dealer)
-
-        elif choice == 6:
+        elif choice == 5:
             # quit
             break
 
