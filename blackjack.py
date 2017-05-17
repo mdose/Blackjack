@@ -62,7 +62,7 @@ def shuffle(deck):
     random.shuffle(deck)
 
 def deal(deck, hand):
-    # remove first four cards; one to player (list); one to dealer(list); repeat
+    # remove first four cards; one to player (list); one to dealer(list); repeat -> returns None
     hand.append(deck.pop(0))
     ## Orginial version below:
     # top_card = deck[0]
@@ -93,7 +93,6 @@ def determine_ace_value(score):
         return 1
 
 def reveal_player_hand(player):
-    print ""
     for card in player:
         print "You have a " + str(card[0]) + " of " + card[1] + "."
     print "\nYour score is: " + str(assess_score(player)) + "."
@@ -119,8 +118,18 @@ def determine_if_bust(hand):
     else:
         return "hit"
 
-#def dealer_plays():
-    #pass
+def dealer_reveals_full_hand(dealer):
+    print "Dealer's turn:"
+    for card in dealer:
+        print "Dealer has a " + str(card[0]) + " of " + card[1] + "."
+    print "\nDealer's score is: " + str(assess_score(dealer)) + "."
+
+def dealer_plays(dealer, deck):
+    if assess_score(dealer) <= 16:
+        deal(deck, dealer)
+        return determine_if_bust(dealer)
+    else:
+        return "stand"
 
 def get_menu_choice():
     """Print a menu and asks the user to make a choice.
@@ -174,7 +183,7 @@ def execute_repl():
             deal(deck, dealer)
             deal(deck, player)
             deal(deck, dealer)
-            print "\nHello."
+            print "\nHello.\n"
             #answer = raw_input("Do you want to play a game? Yes or No? ")
             #if answer == "yes" or "Yes":
             reveal_player_hand(player)
@@ -195,7 +204,21 @@ def execute_repl():
                     break
                 elif answer == "error":
                     print "Does not compute. Please type hit or stand."
-            #reveal_dealer_hand(dealer)
+            dealer_reveals_full_hand(dealer)
+            while True:
+                house_score = dealer_plays(dealer, deck)
+                if house_score == "hit":
+                    dealer_reveals_full_hand(dealer)
+                elif house_score == "stand":
+                    break
+                elif house_score == "bust":
+                    dealer_reveals_full_hand(dealer)
+                    print "Dealer busts! You win!"
+                    break
+                elif house_score == "win":
+                    dealer_reveals_full_hand(dealer)
+                    print "Dealer Blackjack! You lose!"
+                    break
 
 
         # elif choice == 3:
