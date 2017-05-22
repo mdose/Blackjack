@@ -1,7 +1,13 @@
 import random
 
 def make_new_deck():
-    # returns new deck
+    """Creates an unshuffled deck of cards.
+    Arguments:
+      None
+    Returns:
+      List of 52 tuples representing a deck of cards; each tuple has a rank and a suit.
+    """
+
     return [
         (2, "diamonds"),
         (3, "diamonds"),
@@ -58,26 +64,57 @@ def make_new_deck():
     ]
 
 def shuffle(deck):
-    # shuffle the deck(list of tuples, each tuple has a rank, and a suit) -> returns None
+    """Shuffle the deck; each shuffle should be unqiue.
+    Arguments:
+      deck: list of 52 tuples
+    Returns:
+      None
+    """
+
     random.shuffle(deck)
 
 def deal(deck, hand):
-    # remove first four cards; one to player (list); one to dealer(list); repeat -> returns None
+    """Removes first card from the deck and adds card to a new list(hand).
+    Arguments:
+      deck: list of 52 tuples
+      hand: new list belonging to the player or the dealer
+    Returns:
+      None
+    """
+
     hand.append(deck.pop(0))
+
     ## Orginial version below:
     # top_card = deck[0]
     # deck.remove(top_card)
     # hand.append(top_card)
 
 def assess_score(hand):
+    """Calculates the score(int) of the "cards" (tuples) within a list(hand).
+    Arguments:
+      hand: list belonging to the player or the dealer
+    Returns:
+      int(score): the sum of all tuples in the list
+    """
+
     score = 0
     sorted_hand = sorted(hand, key=lambda card: determine_numeric_value(card, 0))
     for card in sorted_hand:
         score += determine_numeric_value(card, score)
     return score
 
+    # sorted_hand insures that the ace is always calucated last.
+    # With sorted_hand, the correct score is calucated no matter how many cards are added to the list(hand).
+
 def determine_numeric_value(card, score):
-    #write a func that takes 1 card(tuple) as a parameter and returns numeric value
+    """Finds numeric value of facecards and aces; called in the assess_score func.
+    Arguments:
+      card: a tuple that consists of a rank and a suit
+      score: interger which is the value of the tuple's rank
+    Returns:
+      int: the numeric value of a card (index[0]), facecard (10) or an ace (1 or 11)
+    """
+
     rank = card[0]
     if rank == "jack" or rank == "queen" or rank == "king":
         return 10
@@ -85,8 +122,16 @@ def determine_numeric_value(card, score):
         return determine_ace_value(score)
     else:
         return rank
+    #may want the parameter of score to be called something else to avoid confusion
 
 def determine_ace_value(score):
+    """Finds numeric value of any aces; called in the determine_numeric_value func.
+    Arguments:
+      score: interger which is the sum of all tuples in the list
+    Returns:
+      int: the numeric value of an ace (1 or 11) based on the score(sum) of all cards in the hand.
+    """
+
     if score <= 10:
         return 11
     else:
@@ -158,6 +203,7 @@ def get_menu_choice():
     Returns:
       int: the user's menu choice
     """
+
     print '\n    0 - Main Menu'
     print '    1 - You play'
     print '    2 - Dealer plays'
@@ -171,10 +217,8 @@ def get_menu_choice():
 
 def execute_repl():
     """Execute the repl loop for the control structure of the program.
-    (REPL stands for Read - Eval - Print Loop. For more info:
-    https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop)
     Arguments:
-        deck: list of tuples representing 52 cards in a deck
+        None
     Returns:
         None
     """
