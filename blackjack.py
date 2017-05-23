@@ -106,11 +106,11 @@ def assess_score(hand):
     # sorted_hand insures that the ace is always calucated last.
     # With sorted_hand, the correct score is calucated no matter how many cards are added to the list(hand).
 
-def determine_numeric_value(card, score):
+def determine_numeric_value(card, current_score):
     """Finds numeric value of facecards and aces; called in the assess_score func.
     Arguments:
       card: a tuple that consists of a rank and a suit
-      score: interger which is the value of the tuple's rank
+      current_score: current sum of all tuples seen so far
     Returns:
       int: the numeric value of a card (index[0]), facecard (10) or an ace (1 or 11)
     """
@@ -119,20 +119,19 @@ def determine_numeric_value(card, score):
     if rank == "jack" or rank == "queen" or rank == "king":
         return 10
     elif rank == "ace":
-        return determine_ace_value(score)
+        return determine_ace_value(current_score)
     else:
         return rank
-    #may want the parameter of score to be called something else to avoid confusion
 
-def determine_ace_value(score):
+def determine_ace_value(current_score):
     """Finds numeric value of any aces; called in the determine_numeric_value func.
     Arguments:
-      score: interger which is the sum of all tuples in the list
+      current_score: current sum of all tuples seen so far
     Returns:
       int: the numeric value of an ace (1 or 11) based on the score(sum) of all cards in the hand.
     """
 
-    if score <= 10:
+    if current_score <= 10:
         return 11
     else:
         return 1
