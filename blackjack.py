@@ -74,10 +74,10 @@ def shuffle(deck):
     random.shuffle(deck)
 
 def deal(deck, hand):
-    """Removes first card from the deck and adds card to a new list(hand).
+    """Removes first tuple(card) from the list(deck) and adds tuple(card) to the provided list(hand).
     Arguments:
       deck: list of 52 tuples
-      hand: new list belonging to the player or the dealer
+      hand: list belonging to the player or the dealer
     Returns:
       None
     """
@@ -90,7 +90,7 @@ def deal(deck, hand):
     # hand.append(top_card)
 
 def assess_score(hand):
-    """Calculates the score(int) of the "cards" (tuples) within a list(hand).
+    """Calculates the sum(score) of the tuples(cards) within a list(hand).
     Arguments:
       hand: list belonging to the player or the dealer
     Returns:
@@ -107,12 +107,12 @@ def assess_score(hand):
     # With sorted_hand, the correct score is calucated no matter how many cards are added to the list(hand).
 
 def determine_numeric_value(card, current_score):
-    """Finds numeric value of facecards and aces; called in the assess_score func.
+    """Finds numeric value of any card, including facecards and aces; called in the assess_score func.
     Arguments:
       card: a tuple that consists of a rank and a suit
       current_score: current sum of all tuples seen so far
     Returns:
-      int: the numeric value of a card (index[0]), facecard (10) or an ace (1 or 11)
+      int: the numeric value of a tuple(card)
     """
 
     rank = card[0]
@@ -124,11 +124,11 @@ def determine_numeric_value(card, current_score):
         return rank
 
 def determine_ace_value(current_score):
-    """Finds numeric value of any aces; called in the determine_numeric_value func.
+    """Assures the correct numeric value of any ace given the current_score; called in the determine_numeric_value func.
     Arguments:
       current_score: current sum of all tuples seen so far
     Returns:
-      int: the numeric value of an ace (1 or 11) based on the score(sum) of all cards in the hand.
+      int: the numeric value of an ace (1 or 11) based on the sum(current_score) of all cards in the hand.
     """
 
     if current_score <= 10:
@@ -168,7 +168,7 @@ def determine_if_bust(hand):
     else:
         return "hit"
 
-def dealer_reveals_full_hand(dealer):
+def reveal_dealer_full_hand(dealer):
     for card in dealer:
         print "Dealer has a " + str(card[0]) + " of " + card[1] + "."
     print "\nDealer's score is: " + str(assess_score(dealer)) + ".\n"
@@ -268,21 +268,21 @@ def execute_repl():
         elif choice == 2:
              # dealer plays; must hit if under 17
              print "\nDealer's turn:\n"
-             dealer_reveals_full_hand(dealer)
+             reveal_dealer_full_hand(dealer)
              reveal_if_natural_blackjack(player, dealer)
              while True:
                  house_score = dealer_plays(dealer, deck)
                  if house_score == "hit":
                      print "Dealer takes another card.\n"
-                     dealer_reveals_full_hand(dealer)
+                     reveal_dealer_full_hand(dealer)
                  elif house_score == "stand":
                      break
                  elif house_score == "bust":
-                     dealer_reveals_full_hand(dealer)
+                     reveal_dealer_full_hand(dealer)
                      print "Dealer busts! You win!"
                      break
                  elif house_score == "win":
-                     dealer_reveals_full_hand(dealer)
+                     reveal_dealer_full_hand(dealer)
                      print "Dealer Blackjack! You lose!"
                      break
 
@@ -290,7 +290,7 @@ def execute_repl():
             player_bust = determine_if_bust(player)
             dealer_bust = determine_if_bust(dealer)
             reveal_player_hand(player)
-            dealer_reveals_full_hand(dealer)
+            reveal_dealer_full_hand(dealer)
             if player_bust == "bust":
                 print "Awe, bust! You lose!"
             elif player_bust == "win":
