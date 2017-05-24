@@ -128,7 +128,7 @@ def determine_ace_value(current_score):
     Arguments:
       current_score: current sum of all tuples seen so far
     Returns:
-      int: the numeric value of an ace (1 or 11) based on the sum(current_score) of all cards in the hand.
+      int: the numeric value of an ace (1 or 11) based on the sum(current_score) of all cards in the list(hand).
     """
 
     if current_score <= 10:
@@ -137,24 +137,66 @@ def determine_ace_value(current_score):
         return 1
 
 def reveal_player_hand(player):
+    """Loops through the player's list(hand) and prints each tuple(card) and the sum(score) in an easy to read format.
+    Arguments:
+        player: list of all tuples(cards) held by the player
+    Returns:
+        None; func only prints.
+    """
+
     print ""
     for card in player:
         print "You have a " + str(card[0]) + " of " + card[1] + "."
     print "\nYour score is: " + str(assess_score(player)) + ".\n"
 
 def reveal_dealer_faceup_card(dealer):
+    """Prints the first tuple(card) of the dealer's list(hand) in an easy to read format.
+    Arguments:
+        dealer: list of all tuples(cards) held by the dealer
+    Returns:
+        None; func only prints.
+    """
+
     print "Dealer has a " + str(dealer[0][0]) + " of " + str(dealer[0][1]) + ".\n"
 
+def reveal_dealer_full_hand(dealer):
+    """Loops through the dealer's list(hand) and prints each tuple(card) and the sum(score) in an easy to read format.
+    Arguments:
+        dealer: list of all tuples(cards) held by the dealer
+    Returns:
+        None; func only prints.
+    """
+
+    for card in dealer:
+        print "Dealer has a " + str(card[0]) + " of " + card[1] + "."
+    print "\nDealer's score is: " + str(assess_score(dealer)) + ".\n"
+
 def hit_or_stand(player, deck, next_move):
+    """Takes raw input from the player and parses the response to determine their next move, peforms the move, and returns the move taken.
+    Arguments:
+        player: list of all tuples(cards) held by the player
+        deck: list of tuples(card) left to choose from
+        next_move: string; user's raw_input
+    Returns:
+        str: the next move taken
+    """
+
     if next_move == "hit":
         deal(deck, player)
-        return determine_if_bust(player)
+        return determine_if_bust_or_blackjack(player)
     elif next_move == "stand":
         return "stand"
     else:
         return "error"
 
-def determine_if_bust(hand):
+def determine_if_bust_or_blackjack(hand):
+    """Calucalates the sum(score) of a list(hand), determines if the next move is affected by the sum(score), and returns the next move taken.
+    Arguments:
+        hand: list belonging to the player or the dealer
+    Returns:
+        str: the next move taken
+    """
+
     if assess_score(hand) > 21:
         return "bust"
     elif assess_score(hand) == 21:
@@ -162,20 +204,32 @@ def determine_if_bust(hand):
     else:
         return "hit"
 
-def reveal_dealer_full_hand(dealer):
-    for card in dealer:
-        print "Dealer has a " + str(card[0]) + " of " + card[1] + "."
-    print "\nDealer's score is: " + str(assess_score(dealer)) + ".\n"
+def hit_or_stand_for_the_dealer(dealer, deck):
+    """ Calucalates the sum(score) of the list(dealer).
+        Dealer must hit if the sum(score) is below 17.
+        Func determines which move the dealer has to take, performs the move, and returns the move taken.
+    Arguments:
+        dealer: list of all tuples(cards) held by the dealer
+        deck: list of tuples(card) left to choose from
+    Returns:
+        str: the next move taken
+    """
 
-def dealer_plays(dealer, deck):
     if assess_score(dealer) <= 16:
         deal(deck, dealer)
-        return determine_if_bust(dealer)
+        return determine_if_bust_or_blackjack(dealer)
     else:
         return "stand"
 
 def determine_winner(player, dealer):
-    #Compare score of player with score of dealer
+    """Compares final sum(score) of player with final sum(score) of dealer, determines winner or if game is a tie.
+    Arguments:
+        player: list of all tuples(cards) held by the player
+        dealer: list of all tuples(cards) held by the dealer
+    Returns:
+        str: the named winner or tie declared
+    """
+
     player_final_score = assess_score(player)
     dealer_final_score = assess_score(dealer)
     if player_final_score > 21:

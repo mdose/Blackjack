@@ -61,7 +61,7 @@ def main():
             print "\nDealer's turn:\n"
             blackjack.reveal_dealer_full_hand(dealer)
             while True:
-                house_move = blackjack.dealer_plays(dealer, deck)
+                house_move = blackjack.hit_or_stand_for_the_dealer(dealer, deck)
                 if house_move == "hit" or house_move  == "bust" or house_move == "win":
                     print "Dealer takes another card.\n"
                     blackjack.reveal_dealer_full_hand(dealer)
