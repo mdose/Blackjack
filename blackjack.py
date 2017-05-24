@@ -142,17 +142,10 @@ def reveal_player_hand(player):
         print "You have a " + str(card[0]) + " of " + card[1] + "."
     print "\nYour score is: " + str(assess_score(player)) + ".\n"
 
-def reveal_if_natural_blackjack(player, dealer):
-    if assess_score(player) == 21:
-        print "Instant Blackjack! You win!"
-    elif assess_score(dealer) == 21:
-        print "Instant Blackjack. Dealer wins."
-
 def reveal_dealer_faceup_card(dealer):
     print "Dealer has a " + str(dealer[0][0]) + " of " + str(dealer[0][1]) + ".\n"
 
-def hit_or_stand(player, deck):
-    next_move = raw_input("Do you want to hit or stand? ").lower()
+def hit_or_stand(player, deck, next_move):
     if next_move == "hit":
         deal(deck, player)
         return determine_if_bust(player)
